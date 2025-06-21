@@ -8,6 +8,7 @@ import os
 
 st.set_page_config(page_title="SmartShield", layout="wide")
 
+# --- User Registration ---
 def register_user():
     st.subheader("📝 Sign Up")
     new_username = st.text_input("Username")
@@ -33,6 +34,7 @@ def register_user():
                     json.dump(users, f, indent=2)
                 st.success("Registered successfully!")
 
+# --- User Login ---
 def login_user():
     st.subheader("🔐 Login")
     username = st.text_input("Username")
@@ -51,11 +53,13 @@ def login_user():
             st.error("No users found. Please register first.")
     return False
 
+# --- App Header ---
 st.title("🔐 SmartShield – Intrusion Detection System")
 st.markdown("""
 A cybersecurity + ML project with user authentication, log upload, and anomaly detection.
 """)
 
+# --- Authentication Mode ---
 mode = st.sidebar.radio("Choose Mode", ["Login", "Sign Up"])
 if mode == "Sign Up":
     register_user()
@@ -64,6 +68,7 @@ else:
     if not login_user():
         st.stop()
 
+# --- File Upload ---
 st.subheader("📤 Upload Log File")
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
@@ -71,6 +76,7 @@ if uploaded_file:
     df = pd.read_csv(uploaded_file)
     st.write("### Uploaded Data", df.head())
 
+    # --- Anomaly Detection ---
     st.subheader("📊 Anomaly Detection")
     with st.spinner("Detecting anomalies using Isolation Forest..."):
         model = IsolationForest(contamination=0.2, random_state=42)
@@ -81,3 +87,7 @@ if uploaded_file:
     st.write("### Detection Results", df[['label']].value_counts().rename("Count"))
     st.write("### Labeled Log Entries", df)
 
+    # --- NEW FEATURE: Suspicious Entries Only ---
+    st.subheader("⚠️ Suspicious Entries Only")
+    suspicious_df = df[df['label'] == '⚠️ Suspicious']
+    st.dataframe(suspicious_df)
