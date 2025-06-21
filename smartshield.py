@@ -2,13 +2,12 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import IsolationForest
-import streamlit_authenticator as stauth
+import bcrypt
 import json
 import os
 
-st.set_page_config(page_title="SmartShield Demo", layout="wide")
+st.set_page_config(page_title="SmartShield", layout="wide")
 
-# --- User Auth (Basic) ---
 def register_user():
     st.subheader("📝 Sign Up")
     new_username = st.text_input("Username")
@@ -28,13 +27,12 @@ def register_user():
             if new_username in users:
                 st.error("Username already exists")
             else:
-                hashed_pw = stauth.Hasher([new_password]).generate()[0]
+                hashed_pw = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
                 users[new_username] = hashed_pw
                 with open("users.json", "w") as f:
                     json.dump(users, f, indent=2)
                 st.success("Registered successfully!")
 
-# --- Login ---
 def login_user():
     st.subheader("🔐 Login")
     username = st.text_input("Username")
@@ -43,20 +41,19 @@ def login_user():
         if os.path.exists("users.json"):
             with open("users.json", "r") as f:
                 users = json.load(f)
-            if username in users and stauth.Hasher([password]).generate()[0] == users[username]:
-                st.success(f"Welcome, {username}!")
-                return True
-            else:
-                st.error("Invalid credentials")
+            if username in users:
+                stored_hash = users[username]
+                if bcrypt.checkpw(password.encode(), stored_hash.encode()):
+                    st.success(f"Welcome, {username}!")
+                    return True
+            st.error("Invalid credentials")
         else:
             st.error("No users found. Please register first.")
     return False
 
-# --- Main Page UI ---
 st.title("🔐 SmartShield – Intrusion Detection System")
 st.markdown("""
-A demo for our cybersecurity + ML project. 
-This version shows user auth, CSV upload, and anomaly detection.
+A cybersecurity + ML project with user authentication, log upload, and anomaly detection.
 """)
 
 mode = st.sidebar.radio("Choose Mode", ["Login", "Sign Up"])
@@ -67,7 +64,6 @@ else:
     if not login_user():
         st.stop()
 
-# --- Upload CSV ---
 st.subheader("📤 Upload Log File")
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
