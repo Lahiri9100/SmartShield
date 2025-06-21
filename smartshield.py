@@ -81,4 +81,3 @@ if uploaded_file:
     st.write("### Detection Results", df[['label']].value_counts().rename("Count"))
     st.write("### Labeled Log Entries", df)
 
-    st.success("Detection complete. More features coming soon in next round.")
