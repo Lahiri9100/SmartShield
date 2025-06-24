@@ -26,9 +26,7 @@ SmartShield is a cloud-based Streamlit app that uses machine learning to detect 
 
 ```
 smartshield/
-├── smartshield_app.py            # Main Streamlit application
-├── smartshield_model.py         # Optional CLI-based version of model detection
-├── generate_fake_logs.py        # Script to generate sample logs
+├── smartshield.py            # Main Streamlit application
 ├── requirements.txt             # Project dependencies
 ├── README.md                    # Project overview (this file)
 ```
