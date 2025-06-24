@@ -1,4 +1,4 @@
-🔐 SmartShield – AI-Powered Intrusion Detection System
+# 🔐 SmartShield – AI-Powered Intrusion Detection System
 
 SmartShield is a cloud-based Streamlit app that uses machine learning to detect suspicious activity from uploaded network logs. Designed for educational institutions and offices, it analyzes network behavior, flags anomalies, and offers detailed visualization and reporting.
 
