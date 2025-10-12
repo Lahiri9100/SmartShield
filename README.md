@@ -25,31 +25,25 @@ SmartShield is a cloud-based Streamlit app that uses machine learning to detect 
 📁 File Structure
 
 ```
-smartshield/
-├── smartshield.py            # Main Streamlit application
-├── requirements.txt             # Project dependencies
-├── README.md                    # Project overview (this file)
+SmartShield/
+│
+├── app.py
+├── auth/
+├── detection/
+├── components/
+├── history/
+├── README.md
+├── requirements.txt
+├── runtime.txt
+└── config.yaml
 ```
 
----
-
-🧪 Generate Demo Logs
-
-Use the following command to generate fake but realistic logs:
-
-```bash
-python generate_fake_logs.py
-```
-
-This will create a file called `demo_network_logs.csv` with normal and suspicious patterns.
-
----
 
 🖥️ Run the App Locally
 
 ```bash
 pip install -r requirements.txt
-streamlit run smartshield_app.py
+streamlit run app.py
 ```
 
 ---
