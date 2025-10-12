@@ -1,0 +1,9 @@
+streamlit
+pandas
+scikit-learn
+matplotlib
+seaborn
+numpy
+pyyaml
+streamlit-authenticator==0.2.2
+cryptography
